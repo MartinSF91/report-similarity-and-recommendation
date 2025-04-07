@@ -1,0 +1,43 @@
+
+SELECT "CSM"."DSP_ACT_DTIME" AS "Actual_Dispatch_Date_Time",
+       "SHP"."EQUIP_ISO_CODE" AS "Equipment_ISO_Code",
+       "SHP"."SHP_ID" AS "Shipment_Id",
+       "SHP"."SHP_CRE_BU_CODE" AS "Shipment_Creator_BU_Code",
+       "SHP"."LATEST_MAJOR_REC24_CODE" AS "Shipment_Latest_Major_Event_Code",
+       "CSM"."CSM_ID" AS "Consignment_Id",
+       "CSM"."LATEST_MAJOR_REC24_CODE" AS "Consignment_Latest_Major_Event_Code",
+       "CSM"."CNEE_BU_CODE" AS "Consignee_BU_Code",
+       "CSM"."CNEE_BU_TYPE" AS "Consignee_BU_Type",
+       "SHP"."MOT_MOVE_TYPE" AS "Mode_Of_Transport_Movement_Type",
+       "CSM"."CNEE_CTY" AS "Consignee_Country_Code",
+       SUM("SHP"."TOT_NET_VOL" / 1000) AS "Total_Net_Volume",
+       "EQUIPMENT_GROUP_T"."EFFECTIVE_VOLUME_BASE" AS "Volume_Max",
+       SUM(("SHP"."TOT_NET_VOL" / 1000) / NULLIF("EQUIPMENT_GROUP_T"."EFFECTIVE_VOLUME_BASE", 0)) AS "Fill_Rate",
+       "SHP"."EQUIP_TYPE_CODE" AS "Equipment_Type_Code"
+FROM "ODR_DELIVERY_PUB"."CSM" "CSM"
+LEFT OUTER JOIN "ODR_DELIVERY_PUB"."CSM_SHP" "CSM_SHP" ON "CSM_SHP"."CSM_CRE_BU_CODE" = "CSM"."CSM_CRE_BU_CODE"
+AND "CSM_SHP"."CSM_CRE_BU_TYPE" = "CSM"."CSM_CRE_BU_TYPE"
+AND "CSM_SHP"."CSM_NO" = "CSM"."CSM_NO"
+LEFT OUTER JOIN "ODR_DELIVERY_PUB"."EQUIPMENT_GROUP_T" "EQUIPMENT_GROUP_T"
+INNER JOIN "ODR_DELIVERY_PUB"."SHP" "SHP" ON "EQUIPMENT_GROUP_T"."EQUIPMENT_GROUP_XID" = "SHP"."EQUIP_TYPE_CODE" ON "SHP"."SHP_NO" = "CSM_SHP"."SHP_NO"
+AND "SHP"."SHP_CRE_BU_CODE" = "CSM_SHP"."SHP_CRE_BU_CODE"
+AND "SHP"."SHP_CRE_BU_TYPE" = "CSM_SHP"."SHP_CRE_BU_TYPE"
+WHERE NOT ("SHP"."LATEST_MAJOR_REC24_CODE" IN ('111'))
+  AND NOT ("CSM"."LATEST_MAJOR_REC24_CODE" IN ('324'))
+  AND "CSM"."DSP_ACT_DTIME" >= {ts '2022-09-01 00:00:00'}
+  AND "SHP"."SHP_CRE_BU_CODE" IN ('002')
+  AND "CSM"."CNEE_BU_TYPE" IN ('STO')
+  AND LOWER("CSM"."CSM_ID") LIKE '002-dt%'
+GROUP BY "CSM"."DSP_ACT_DTIME",
+         "SHP"."EQUIP_ISO_CODE",
+         "SHP"."SHP_ID",
+         "SHP"."SHP_CRE_BU_CODE",
+         "SHP"."LATEST_MAJOR_REC24_CODE",
+         "CSM"."CSM_ID",
+         "CSM"."LATEST_MAJOR_REC24_CODE",
+         "CSM"."CNEE_BU_CODE",
+         "CSM"."CNEE_BU_TYPE",
+         "SHP"."MOT_MOVE_TYPE",
+         "CSM"."CNEE_CTY",
+         "EQUIPMENT_GROUP_T"."EFFECTIVE_VOLUME_BASE",
+         "SHP"."EQUIP_TYPE_CODE"

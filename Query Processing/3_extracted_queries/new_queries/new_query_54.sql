@@ -1,0 +1,2 @@
+/* user=Jhanvi Nandani reportPath= report= queryName=IB2 REMOTE_ADDR= SERVER_NAME=cognosanalytics.apps.ikea.com requestID=d8lwyvv2y2vMCjsMwqvvhdMdvlj49G424y8yhMC4 */ SELECT DISTINCT "SQL4"."IB_finish" AS "IB_finish"
+FROM "SQL4"

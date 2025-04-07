@@ -1,0 +1,23 @@
+SELECT "SQL5"."ARTICLE" "ARTICLE",
+       "SQL5"."SUPPLIER" "SUPPLIER",
+       "SQL5"."CDC" "CDC",
+       "SQL5"."ARTSUP" "ARTSUP",
+       "SQL5"."Pallet ID" "Pallet_ID",
+       "SQL5"."Pallet Qty" "Pallet_Qty",
+       "SQL5"."Pallet Class" "Pallet_Class",
+       "SQL5"."Qty" "Qty",
+       "SQL5"."PARTUNIT" "PARTUNIT",
+       sum("SQL5"."Pallets") "Pallets",
+       sum("SQL5"."Article Volume") "Article_Volume",
+       sum("SQL5"."Pallet Volume") "Pallet_Volume",
+       sum(1) "Total_StUnits"
+FROM "SQL5"
+GROUP BY "SQL5"."ARTICLE",
+         "SQL5"."SUPPLIER",
+         "SQL5"."CDC",
+         "SQL5"."ARTSUP",
+         "SQL5"."Pallet ID",
+         "SQL5"."Pallet Qty",
+         "SQL5"."Pallet Class",
+         "SQL5"."Qty",
+         "SQL5"."PARTUNIT"

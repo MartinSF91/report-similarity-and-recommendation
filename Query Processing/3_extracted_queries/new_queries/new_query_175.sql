@@ -1,0 +1,23 @@
+SELECT DISTINCT "SQL1"."DT" AS "DT",
+                "SQL1"."T_TYPE" AS "T_TYPE",
+                "SQL1"."PLAN_UNL_DATE" AS "PLAN_UNL_DATE",
+                "SQL1"."LU_ID" AS "LU_ID",
+                "SQL1"."UNIT_SIZE" AS "UNIT_SIZE",
+                "SQL1"."BOL_NO" AS "BOL_NO",
+                "SQL1"."SHP_ID" AS "SHP_ID",
+                "SQL1"."MAX(CDT_FLAG)||MAX(ODT_FLAG)" AS "C8",
+                "SQL1"."SUM(ODT_VOL)" AS "SUM_ODT_VOL_",
+                "SQL1"."SUM(DC_VOL)" AS "SUM_DC_VOL_",
+                "SQL1"."SUM(TTL_VOL)" AS "SUM_TTL_VOL_",
+                "SQL1"."CC_DATE" AS "CC_DATE",
+                "SQL1"."PLAN_END_DATE" AS "PLAN_END_DATE",
+                "SQL1"."ACT_END_DATE" AS "ACT_END_DATE",
+                "SQL1"."BUA_START" AS "BUA_START",
+                "SQL1"."BUA_END" AS "BUA_END",
+                "SQL1"."BU_NAME_CAR" AS "BU_NAME_CAR",
+                "SQL1"."VOYAGE_NO" AS "VOYAGE_NO",
+                "SQL1"."TRPU_ID" AS "TRPU_ID",
+                "SQL1"."GEM_COM" AS "GEM_COM",
+                "SQL1"."CNS_COM" AS "CNS_COM"
+FROM "SQL1"
+WHERE "SQL1"."DT" = '460'

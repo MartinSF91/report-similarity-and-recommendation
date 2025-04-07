@@ -1,0 +1,15 @@
+SELECT DISTINCT "SQL1"."MHA" "MHA",
+                "SQL1"."RACK" "RACK",
+                "SQL1"."HORCOOR" "HORCOOR",
+                "SQL1"."VERCOOR" "VERCOOR",
+                "SQL1"."AMOONCR" "AMOONCR",
+                "SQL1"."STATDATE" "STATDATE",
+                "SQL1"."ECARRNO" "ECARRNO",
+                "SQL1"."PARTNO" "PARTNO",
+                "SQL1"."PARTREV" "PARTREV",
+                "SQL1"."SHORTL62" "SHORTL62",
+                "SQL1"."PMHA" "PMHA",
+                "SQL1"."BALPL" "BALPL",
+                "SQL1"."PARTDSC1" "PARTDSC1",
+                "SQL1"."_STUNDEN" "C__STUNDEN"
+FROM "SQL1"

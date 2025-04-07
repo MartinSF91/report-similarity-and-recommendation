@@ -1,0 +1,17 @@
+SELECT DISTINCT "SQL1"."_Halle         " "C__Halle_________",
+                "SQL1"."LOGGUSER" "LOGGUSER",
+                "SQL1"."FNAME" "FNAME",
+                "SQL1"."LNAME" "LNAME",
+                "SQL1"."_Fruhschicht" "C__Fruhschicht",
+                "SQL1"."06:00-06:59" "C_06_00_06_59",
+                "SQL1"."07:00-07:59" "C_07_00_07_59",
+                "SQL1"."08:00-08:59" "C_08_00_08_59",
+                "SQL1"."09:00-09:59" "C_09_00_09_59",
+                "SQL1"."10:00-10:59" "C_10_00_10_59",
+                "SQL1"."11:00-11:59" "C_11_00_11_59",
+                "SQL1"."12:00-12:59" "C_12_00_12_59",
+                "SQL1"."13:00-13:59" "C_13_00_13_59",
+                "SQL1"."HPHONE" "HPHONE",
+                "SQL1"."_Stuck sensitive" "C__Stuck_sensitive",
+                "SQL1"."_Stuck pro Pick" "C__Stuck_pro_Pick"
+FROM "SQL1"

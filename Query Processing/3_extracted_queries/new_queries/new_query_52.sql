@@ -1,0 +1,2 @@
+/* user=Jhanvi Nandani reportPath= report= queryName=Query5 REMOTE_ADDR= SERVER_NAME=cognosanalytics.apps.ikea.com requestID=yj2sysMj8h4C2CMvqhlGyCwlhly4d8qvC4q4y229 */ SELECT DISTINCT "SQL5"."SYSDATE" AS "SYSDATE"
+FROM "SQL5"

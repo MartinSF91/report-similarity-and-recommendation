@@ -1,0 +1,81 @@
+SELECT CASE
+           WHEN "O04T15"."ORDSTAT"=1 THEN 10
+           WHEN "O04T15"."ORDSTAT"=22 THEN 20
+           WHEN "O04T15"."ORDSTAT"=2 THEN 30
+           WHEN "O04T15"."ORDSTAT"=7 THEN 40
+           WHEN "O04T15"."ORDSTAT"=9 THEN 50
+           WHEN "O04T15"."ORDSTAT"=0 THEN 99
+           ELSE NULL
+       END "ViCO_OrdHead_State",
+       TRUNC(cast("O04T15"."STATDATE" AS TIMESTAMP(9))) "VICOrd_UpdateDate",
+       CASE
+           WHEN "O08T16"."LINESTAT"=1 THEN 10
+           WHEN "O08T16"."LINESTAT"=22 THEN 20
+           WHEN "O08T16"."LINESTAT"=2 THEN 30
+           WHEN "O08T16"."LINESTAT"=7 THEN 50
+           WHEN "O08T16"."LINESTAT"=0 THEN 99
+           ELSE NULL
+       END "VICOrdLin_Status",
+       "ADDRESSES"."D50CNTRY" "ViCO_CusCountry",
+       CASE
+           WHEN trim(BOTH
+                     FROM "O04T90"."ORDERSRC")='COS' THEN substr("O04T15"."EORDERID", 1, 3)
+           ELSE NULL
+       END "VICOrd_BuCodeCre",
+       sum("O08T16"."REALVOL"/1000) "VICOrdLin_VolumeTotal",
+       "O04T15"."EORDERID" "ViCO_CusOrd_ID",
+       "A_O06T1_O04T1"."NOORDL" "ViCOrd_NoOrdLines",
+       "R08T1"."ROUTENO" "DspDet_RouteNo"
+FROM (((("O08T16"
+         INNER JOIN "O04T15" ON "O08T16"."SHORTO04"="O04T15"."SHORTO04")
+        INNER JOIN "O04T90" "O04T90" ON "O04T15"."SHORTO04"="O04T90"."SHORTO04")
+       INNER JOIN "R08T1" "R08T1" ON "O08T16"."SHORTR08"="R08T1"."SHORTR08")
+      LEFT OUTER JOIN "A_O06T1_O04T1" ON "O04T15"."SHORTO04"="A_O06T1_O04T1"."SHORTO04")
+LEFT OUTER JOIN "ADDRESSES" ON "O04T15"."SHORTO04"="ADDRESSES"."SYSSHORT"
+AND 10="ADDRESSES"."ROLETYPE"
+AND 1="ADDRESSES"."D13SEQ"
+WHERE TRUNC(cast("O04T15"."STATDATE" AS TIMESTAMP(9))) BETWEEN DATE '2025-03-19' AND DATE '2025-03-26'
+  AND CASE
+          WHEN ("O04T15"."ORDSTAT"=1) THEN 10
+          WHEN ("O04T15"."ORDSTAT"=22) THEN 20
+          WHEN ("O04T15"."ORDSTAT"=2) THEN 30
+          WHEN ("O04T15"."ORDSTAT"=7) THEN 40
+          WHEN ("O04T15"."ORDSTAT"=9) THEN 50
+          WHEN ("O04T15"."ORDSTAT"=0) THEN 99
+          ELSE NULL
+      END IN ('50')
+  AND CASE
+          WHEN ("O08T16"."LINESTAT"=1) THEN 10
+          WHEN ("O08T16"."LINESTAT"=22) THEN 20
+          WHEN ("O08T16"."LINESTAT"=2) THEN 30
+          WHEN ("O08T16"."LINESTAT"=7) THEN 50
+          WHEN ("O08T16"."LINESTAT"=0) THEN 99
+          ELSE NULL
+      END IN ('50')
+GROUP BY CASE
+             WHEN "O04T15"."ORDSTAT"=1 THEN 10
+             WHEN "O04T15"."ORDSTAT"=22 THEN 20
+             WHEN "O04T15"."ORDSTAT"=2 THEN 30
+             WHEN "O04T15"."ORDSTAT"=7 THEN 40
+             WHEN "O04T15"."ORDSTAT"=9 THEN 50
+             WHEN "O04T15"."ORDSTAT"=0 THEN 99
+             ELSE NULL
+         END,
+         TRUNC(cast("O04T15"."STATDATE" AS TIMESTAMP(9))),
+         CASE
+             WHEN "O08T16"."LINESTAT"=1 THEN 10
+             WHEN "O08T16"."LINESTAT"=22 THEN 20
+             WHEN "O08T16"."LINESTAT"=2 THEN 30
+             WHEN "O08T16"."LINESTAT"=7 THEN 50
+             WHEN "O08T16"."LINESTAT"=0 THEN 99
+             ELSE NULL
+         END,
+         "ADDRESSES"."D50CNTRY",
+         CASE
+             WHEN trim(BOTH
+                       FROM "O04T90"."ORDERSRC")='COS' THEN substr("O04T15"."EORDERID", 1, 3)
+             ELSE NULL
+         END,
+         "O04T15"."EORDERID",
+         "A_O06T1_O04T1"."NOORDL",
+         "R08T1"."ROUTENO"

@@ -1,0 +1,6 @@
+SELECT DISTINCT "SQL1"."GRANTEE" "GRANTEE",
+                "SQL1"."OWNER" "OWNER",
+                "SQL1"."TABLE_NAME" "TABLE_NAME",
+                "SQL1"."PRIVILEGE" "PRIVILEGE",
+                "SQL1"."SYNONYM_NAME" "SYNONYM_NAME"
+FROM "SQL1"

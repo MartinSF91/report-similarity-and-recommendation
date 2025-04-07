@@ -1,0 +1,5 @@
+SELECT DISTINCT "SQL1"."DIVCODE" "DIVCODE",
+                "SQL1"."TRIM(A.PARTNO)" "TRIM_A_PARTNO_",
+                "SQL1"."TRIM(A.PARTREV)" "TRIM_A_PARTREV_",
+                "SQL1"."SUM(DELQUANT)" "SUM_DELQUANT_"
+FROM "SQL1"

@@ -1,0 +1,49 @@
+SELECT "O08T14"."LINESTAT" "OrdLine_LineStat",
+       "O04T15"."ORDSTAT" "OrdGi_OrdStatus",
+       TRUNC(cast("O04T15"."STATDATE" AS TIMESTAMP(9))) "Datum",
+       CASE
+           WHEN "O04T15"."ORDSTAT"=1 THEN 10
+           WHEN "O04T15"."ORDSTAT"=22 THEN 20
+           WHEN "O04T15"."ORDSTAT"=2 THEN 30
+           WHEN "O04T15"."ORDSTAT"=7 THEN 40
+           WHEN "O04T15"."ORDSTAT"=9 THEN 50
+           WHEN "O04T15"."ORDSTAT"=0 THEN 99
+           ELSE NULL
+       END "ViCO_OrdHead_State",
+       "O04T90"."ORDERSRC" "OrderSourceSystem",
+       sum("O08T14"."DELVOL"/1000) "Volumen",
+       "R08T1"."STATDATE" "DspDet_StatDateTime"
+FROM "O08T14",
+     "O04T15",
+     "O04T90" "O04T90",
+     "R08T1" "R08T1"
+WHERE "O08T14"."LINESTAT" IN (7)
+  AND "O04T15"."ORDSTAT" IN (9)
+  AND CASE
+          WHEN ("O04T15"."ORDSTAT"=1) THEN 10
+          WHEN ("O04T15"."ORDSTAT"=22) THEN 20
+          WHEN ("O04T15"."ORDSTAT"=2) THEN 30
+          WHEN ("O04T15"."ORDSTAT"=7) THEN 40
+          WHEN ("O04T15"."ORDSTAT"=9) THEN 50
+          WHEN ("O04T15"."ORDSTAT"=0) THEN 99
+          ELSE NULL
+      END IN (50)
+  AND "R08T1"."STATDATE">=to_date('2025-03-25 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+  AND "R08T1"."STATDATE"<(to_date('2025-03-25 00:00:00', 'YYYY-MM-DD HH24:MI:SS') + INTERVAL '1' DAY)
+  AND "O08T14"."SHORTO04"="O04T15"."SHORTO04"
+  AND "O04T15"."SHORTO04"="O04T90"."SHORTO04"
+  AND "O08T14"."SHORTR08"="R08T1"."SHORTR08"
+GROUP BY "O08T14"."LINESTAT",
+         "O04T15"."ORDSTAT",
+         TRUNC(cast("O04T15"."STATDATE" AS TIMESTAMP(9))),
+         CASE
+             WHEN "O04T15"."ORDSTAT"=1 THEN 10
+             WHEN "O04T15"."ORDSTAT"=22 THEN 20
+             WHEN "O04T15"."ORDSTAT"=2 THEN 30
+             WHEN "O04T15"."ORDSTAT"=7 THEN 40
+             WHEN "O04T15"."ORDSTAT"=9 THEN 50
+             WHEN "O04T15"."ORDSTAT"=0 THEN 99
+             ELSE NULL
+         END,
+         "O04T90"."ORDERSRC",
+         "R08T1"."STATDATE"
